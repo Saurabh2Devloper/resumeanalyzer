@@ -1,0 +1,164 @@
+.download-btn {
+    background-color: #4CAF50; 
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+
+.download-btn:hover {
+    background-color: #45a049; 
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 1400px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.content {
+    width: 70%;
+}
+
+.analysis-section, .improvements-section {
+    width: 30%;
+    margin-left: 20px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2, h3 {
+    text-align: center;
+}
+
+label {
+    font-weight: bold;
+}
+
+textarea, input[type="file"], button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+textarea {
+    resize: vertical;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.resumes-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.resume-card {
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 48%;
+    box-sizing: border-box;
+}
+
+.resume-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.keywords {
+    color: green;
+    font-size: 14px;
+}
+
+.matching-keywords {
+    background-color: #e7f3e7;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.keywords-title {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.analysis-section h3, .improvements-section h3 {
+    text-align: left;
+}
+
+.analysis-list, .improvements-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.analysis-list li, .improvements-list li {
+    background-color: #e7f3e7; 
+    margin: 5px 0;
+    padding: 10px; 
+    border-radius: 5px;
+}
+
+.analysis-list strong, .improvements-list strong {
+    font-weight: bold; 
+}

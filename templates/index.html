@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resume Analyzer</title>
+ 
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-auth.js"></script>
+
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        
+        .sidebar {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 25%;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            height: calc(100% - 40px); /* Keep some spacing */
+        }
+
+        .sidebar h3 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .sidebar-button {
+            display: block;
+            background-color: #4caf50;
+            color: white;
+            padding: 10px;
+            margin: 10px 0;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar-button:hover {
+            background-color: #45a049;
+        }
+
+        .user-info {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .user-info p {
+            margin: 5px 0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <h1>Resume Analyzer</h1>
+
+            <form method="POST" action="/matcher" enctype="multipart/form-data">
+                <label for="job_description">Job Description:</label>
+                <textarea id="job_description" name="job_description" rows="4" cols="50" required></textarea>
+
+                <label for="resumes">Upload Resumes:</label>
+                <input type="file" id="resumes" name="resumes" multiple required>
+
+                <button type="submit">Verify Resume </button>
+            </form>
+
+            {% if message %}
+                <h2>{{ message }}</h2>
+            {% endif %}
+
+            {% if top_resumes %}
+                <div class="resumes-container">
+                    {% for resume, score, matching in zip(top_resumes, similarity_scores, top_matching_keywords) %}
+                        <div class="resume-card">
+                            <div class="resume-title"> Uploaded Resume : {{ resume }} -</div>
+                            <hr><br>
+                            <b><div> Similarity: {{ score }}</div></b>
+                            <div class="matching-keywords">
+                                <div class="keywords-title">Matching Keywords:</div>
+                                <div class="keywords">{{ matching | join(', ') }}</div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <table>
+                    <tr>
+                        <th>Resume</th>
+                        <th>Similarity Score</th>
+                        <th>Download</th>
+                    </tr>
+                    {% for resume, score in zip(top_resumes, similarity_scores) %}
+                    <tr>
+                        <td>{{ resume }}</td>
+                        <td>{{ score }}</td>
+                        <td><a href="{{ url_for('download_resume', filename=resume) }}" class="download-btn">Download</a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <h3>No matching resumes found.</h3>
+            {% endif %}
+        </div>
+
+        <div class="analysis-section">
+            <h3>Descriptive Analysis</h3>
+            {% if analysis %}
+                <ul class="analysis-list">
+                    {% for resume, details in analysis.items() %}
+                        <li>
+                            <div>
+                                <strong>Total Job Description Words:</strong> {{ details['Total Job Description Words'] }}
+                            </div>
+                            <div>
+                                <strong>Total Resume Words:</strong> {{ details['Total Resume Words'] }}
+                            </div>
+                            <div>
+                                <strong>Matching Words:</strong> {{ details['Matching Words'] }}
+                            </div>
+                            <div>
+                                <strong>Percentage of Matching:</strong> {{ details['Percentage of Matching'] }}
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No analysis available.</p>
+            {% endif %}
+
+            <div>
+                <h3>Comparative Summary</h3>
+                {% for summary in comparative_summaries %}
+                    <div class="resume-card">
+                        <div><strong>Resume: {{ summary.filename }}</strong></div>
+                        <div>{{ summary.summary }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="improvements-section">
+            <h3>Improvements</h3>
+            {% if missing_keywords %}
+                <ul class="improvements-list">
+                    {% for resume, missing in missing_keywords.items() %}
+                        <li>
+                            <strong>{{ resume }}:</strong> {{ missing | join(', ') }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No missing keywords found.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <div class="user-info">
+            <h3>User Details</h3>
+            <p>Name: {{ user.name }}</p>
+            <p>Email: {{ user.email }}</p>
+        </div>
+        <h3>Options</h3>
+        <a href="/profile" class="sidebar-button">Profile</a>
+        <a href="/logout" class="sidebar-button">Logout</a>
+        <a href="/about" class="sidebar-button">About</a>
+        <a href="/my-resume" class="sidebar-button">My Resume</a>
+    </div>
+</body>
+</html>
